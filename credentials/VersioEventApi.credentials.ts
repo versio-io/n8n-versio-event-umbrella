@@ -9,7 +9,8 @@ import {
 	ICredentialType,
 	INodeProperties,
 	Icon,
-	IHttpRequestOptions, 
+	// IHttpRequestOptions, 
+	ICredentialTestRequest
 } from 'n8n-workflow';
 
 export class VersioEventApi implements ICredentialType {
@@ -50,16 +51,17 @@ export class VersioEventApi implements ICredentialType {
 		type: 'generic',
 		properties: {
 			headers: {
-				Authorization: '=apiToken {{$credentials.apiToken}}',
+				Authorization: '=apiToken {{$credentials.apiToken}}', //Without equal sign, it wont work.
 			},
 		},
 	};
 
-	// ✔ FIXED test property
-	test = {
-		request: {
-			method: 'GET',  // must be literal to match IHttpRequestMethods
-			url: '={{$credentials.serverUrl}}/api-versio.eventProcessing/1.0/environments/{{$credentials.environment}}/events?limit=1',
-		} as IHttpRequestOptions,
-	};
+	
+test: ICredentialTestRequest = {
+        request: {
+            baseURL:'={{$credentials.serverUrl}}',
+            url: '/api-versio.eventProcessing/1.0/environments/{{$credentials.environment}}/events',
+            method: 'POST',
+        },
+    };
 }
