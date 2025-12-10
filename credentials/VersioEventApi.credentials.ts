@@ -51,17 +51,32 @@ export class VersioEventApi implements ICredentialType {
 		type: 'generic',
 		properties: {
 			headers: {
-				Authorization: '=apiToken {{$credentials.apiToken}}', //Without equal sign, it wont work.
+				Authorization: '=apiToken {{$credentials.apiToken}}',
 			},
 		},
 	};
 
-	
 test: ICredentialTestRequest = {
-        request: {
-            baseURL:'={{$credentials.serverUrl}}',
-            url: '/api-versio.eventProcessing/1.0/environments/{{$credentials.environment}}/events',
-            method: 'POST',
-        },
-    };
+	request: {
+		baseURL:
+			'={{$credentials.serverUrl}}/api-versio.eventProcessing/1.0/environments/{{$credentials.environment}}/events',
+		url: '',
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: [
+			{
+				id: '999999999',
+				sourceType: 'n8n credential test',
+				trigger: 'n8n',
+				message: 'Credential Test: This is a test event from n8n.',
+			},
+		],
+	},
+};
+
+
+	
+
 }
